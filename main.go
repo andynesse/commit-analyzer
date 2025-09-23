@@ -28,6 +28,8 @@ func main() {
 	}
 
 	results := analyzer.AnalyzeCommits(commits)
-
 	reporter.ConsoleReport(results)
+
+	analysisSummary := analyzer.CalculateSummary(results)
+	reporter.ConsoleSummary(analysisSummary)
 }

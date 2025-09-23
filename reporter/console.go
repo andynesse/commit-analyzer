@@ -38,3 +38,12 @@ func commitResult(result analyzer.CommitScore) string {
 	}
 	return commitOutput
 }
+
+func ConsoleSummary(summary analyzer.AnalysisSummary) {
+	summaryOutput := "Summary\n"
+	summaryOutput += fmt.Sprintf("   Total Commits: %d\n", summary.TotalCommits)
+	summaryOutput += fmt.Sprintf("   Average Score: %.1f%%\n", summary.AverageScore)
+	summaryOutput += fmt.Sprintf("   Best Score:    %d%%\n", summary.BestScore)
+	summaryOutput += fmt.Sprintf("   Worst Score:   %d%%\n", summary.WorstScore)
+	fmt.Println(summaryOutput)
+}
