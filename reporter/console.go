@@ -34,7 +34,7 @@ func commitResult(result analyzer.CommitScore) string {
 			commitOutput += fmt.Sprintf("      * %s\n", suggestion)
 		}
 	} else {
-		commitOutput += fmt.Sprintln("   All checks passed!\n")
+		commitOutput += fmt.Sprintln("   All checks passed!")
 	}
 	return commitOutput
 }

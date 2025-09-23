@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -11,7 +12,10 @@ import (
 )
 
 func main() {
-	commits, err := git.GetCommitHistory(".")
+	repoPath := flag.String("repo", ".", "Path to git repository")
+	flag.Parse()
+
+	commits, err := git.GetCommitHistory(*repoPath)
 	if err != nil {
 		log.Fatal("Failed to get commit history: ", err)
 	}
