@@ -2,6 +2,7 @@ package git
 
 import (
 	"os/exec"
+	"strconv"
 	"strings"
 )
 
@@ -12,8 +13,19 @@ type Commit struct {
 	Date    string
 }
 
-func GetCommitHistory(repoPath string) ([]Commit, error) {
+func GetCommitHistory(repoPath, since, until string, limit int) ([]Commit, error) {
 	args := []string{"log", "--pretty=format:%H|%an|%ad|%s", "--date=short"}
+
+	if since != "" {
+		args = append(args, "--since=\""+since+"\"")
+	}
+	if until != "" {
+		args = append(args, "--until=\""+until+"\"")
+	}
+	if limit > 0 {
+		args = append(args, "-n", strconv.Itoa(limit))
+	}
+
 	cmd := exec.Command("git", args...)
 	cmd.Dir = repoPath
 
