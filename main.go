@@ -7,6 +7,7 @@ import (
 
 	"github.com/andynesse/commit-analyzer/analyzer"
 	"github.com/andynesse/commit-analyzer/git"
+	"github.com/andynesse/commit-analyzer/reporter"
 )
 
 func main() {
@@ -21,10 +22,5 @@ func main() {
 
 	results := analyzer.AnalyzeCommits(commits)
 
-	fmt.Printf("Found %d commits\n", len(commits))
-	output := ""
-	for _, res := range results {
-		output += fmt.Sprintf("Score: %v%%\nMessage: %s\nDate: %v\nSuggestions: %v\n-------\n", res.Score, res.Commit.Message, res.Commit.Date, res.Suggestions)
-	}
-	fmt.Print(output)
+	reporter.ConsoleReport(results)
 }
