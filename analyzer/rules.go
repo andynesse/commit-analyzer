@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode"
 
 	"github.com/andynesse/commit-analyzer/git"
 )
@@ -51,6 +52,18 @@ var Rules = []Rule{
 		Description: "Don't end message with a period",
 		Weight:      7,
 		Check:       noPeriodCheck,
+	},
+	{
+		Name:        "imperative_mood_check",
+		Description: "Start with an imperative verb ('Add' instead of 'Added')",
+		Weight:      20,
+		Check:       imperativeMoodCheck,
+	},
+	{
+		Name:        "capitalized_check",
+		Description: "Capitalize the description",
+		Weight:      10,
+		Check:       capitalizedCheck,
 	},
 }
 
@@ -168,4 +181,35 @@ func noPeriodCheck(msg string) bool {
 	}
 	lastChar := trimmed[len(trimmed)-1]
 	return lastChar != '.'
+}
+
+func imperativeMoodCheck(msg string) bool {
+	imperativeVerbs := []string{"add", "fix", "update", "remove", "implement", "refactor", "document", "improve", "optimize", "simplify", "resolve", "create", "delete", "change", "move", "rename", "bump"}
+	cleanMsg := msg
+	if idx := strings.Index(msg, ": "); idx != -1 {
+		cleanMsg = strings.TrimSpace(msg[idx+1:])
+	}
+	if cleanMsg == "" {
+		return false
+	}
+
+	firstWord := strings.ToLower(strings.Fields(cleanMsg)[0])
+	for _, verb := range imperativeVerbs {
+		if firstWord == verb {
+			return true
+		}
+	}
+	return false
+}
+
+func capitalizedCheck(msg string) bool {
+	cleanMsg := msg
+	if idx := strings.Index(msg, ": "); idx != -1 {
+		cleanMsg = strings.TrimSpace(msg[idx+1:])
+	}
+	if cleanMsg == "" {
+		return false
+	}
+	firstWord := strings.Fields(cleanMsg)[0]
+	return unicode.IsUpper(rune(firstWord[0]))
 }
