@@ -16,7 +16,24 @@ func main() {
 	since := flag.String("since", "", "Analyze commits since")
 	until := flag.String("until", "", "Analyze commits until")
 	limit := flag.Int("limit", 0, "Limit number of commits to analyze (0 = All)")
+	version := flag.Bool("version", false, "Show module version")
+	help := flag.Bool("help", false, "Show help information")
+
+	flag.Usage = func() {
+		reporter.PrintUsage()
+	}
+
 	flag.Parse()
+
+	if *help {
+		flag.Usage()
+		os.Exit(0)
+	}
+
+	if *version {
+		reporter.PrintVersion()
+		os.Exit(0)
+	}
 
 	commits, err := git.GetCommitHistory(*repoPath, *since, *until, *limit)
 	if err != nil {
