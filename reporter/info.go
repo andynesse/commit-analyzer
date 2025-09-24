@@ -36,10 +36,12 @@ func PrintUsage() {
 	fmt.Fprintln(w, "   -limit int\tLimit number of commits to analyze (0 = all)")
 	fmt.Fprintln(w, "   -version\tShow module version")
 	fmt.Fprintln(w, "   -help\tShow this help message")
+	fmt.Fprintln(w, "   -log\tLists the score for every commit")
 	w.Flush()
 	usageOutput += b.String()
 
 	usageOutput += "\n🛠  Examples:\n"
+	usageOutput += "   commit-analyzer -log\n"
 	usageOutput += "   commit-analyzer -repo ./path/to/my-repo\n"
 	usageOutput += "   commit-analyzer -since \"2025-01-01\" -until \"2025-02-01\"\n"
 	usageOutput += "   commit-analyzer -limit 5\n\n"

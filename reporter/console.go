@@ -40,7 +40,7 @@ func commitResult(result analyzer.CommitScore) string {
 }
 
 func ConsoleSummary(summary analyzer.AnalysisSummary) {
-	summaryOutput := "📝 Summary:\n"
+	summaryOutput := "\n📝 Summary:\n"
 	summaryOutput += fmt.Sprintf("   Total Commits: %d\n", summary.TotalCommits)
 	summaryOutput += fmt.Sprintf("   Average Score: %.1f%%\t %s\n", summary.AverageScore, getScoreBar(int(summary.AverageScore)))
 	summaryOutput += fmt.Sprintf("   Best Score:    %d%%\t %s\n", summary.BestScore, GetScoreEmoji(summary.BestScore))

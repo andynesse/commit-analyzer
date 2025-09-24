@@ -16,8 +16,9 @@ func main() {
 	since := flag.String("since", "", "Analyze commits since")
 	until := flag.String("until", "", "Analyze commits until")
 	limit := flag.Int("limit", 0, "Limit number of commits to analyze (0 = All)")
-	version := flag.Bool("version", false, "Show module version")
-	help := flag.Bool("help", false, "Show help information")
+	showLog := flag.Bool("log", false, "Lists score for every commit")
+	showVersion := flag.Bool("version", false, "Show module version")
+	showHelp := flag.Bool("help", false, "Show help information")
 
 	flag.Usage = func() {
 		reporter.PrintUsage()
@@ -25,12 +26,12 @@ func main() {
 
 	flag.Parse()
 
-	if *help {
+	if *showHelp {
 		flag.Usage()
 		os.Exit(0)
 	}
 
-	if *version {
+	if *showVersion {
 		reporter.PrintVersion()
 		os.Exit(0)
 	}
@@ -45,8 +46,9 @@ func main() {
 	}
 
 	results := analyzer.AnalyzeCommits(commits)
-	reporter.ConsoleReport(results)
-
+	if *showLog {
+		reporter.ConsoleReport(results)
+	}
 	analysisSummary := analyzer.CalculateSummary(results)
 	reporter.ConsoleSummary(analysisSummary)
 }
